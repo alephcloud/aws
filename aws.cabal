@@ -95,10 +95,13 @@ Library
                        Aws.Ses.Core,
                        Aws.DynamoDb.Commands,
                        Aws.DynamoDb.Commands.Table,
-                       Aws.DynamoDb.Core
+                       Aws.DynamoDb.Core,
+                       Aws.General,
+                       Aws.SignatureV4
 
   Build-depends:
                        aeson                >= 0.6     && < 0.8,
+                       attoparsec           >= 0.11,
                        base                 == 4.*,
                        base16-bytestring    == 0.1.*,
                        base64-bytestring    == 1.0.*,
@@ -121,13 +124,17 @@ Library
                        mtl                  == 2.*,
                        old-locale           == 1.*,
                        resourcet            >= 1.1     && < 1.2,
+                       parsers              >= 0.11,
+                       QuickCheck           >= 2.7,
+                       quickcheck-instances >= 0.3,
                        text                 >= 0.11,
                        time                 >= 1.1.4   && < 1.5,
                        transformers         >= 0.2.2 && < 0.5,
                        unordered-containers >= 0.2,
                        utf8-string          == 0.3.*,
                        vector               >= 0.10,
-                       xml-conduit          >= 1.2 && <1.3
+                       xml-conduit          >= 1.2 && <1.3,
+                       hashable             >= 1.2
 
   if !impl(ghc >= 7.6)
     Build-depends: ghc-prim
@@ -196,3 +203,35 @@ Executable Sqs
                        text >=0.11
 
   Default-Language: Haskell2010
+
+test-suite signature-v4
+  type:    exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+    SignatureV4
+    General
+  default-language: Haskell2010
+  build-depends:
+    base == 4.*,
+    aws,
+    bytestring >= 0.10,
+    QuickCheck,
+    quickcheck-instances,
+    parsers >= 0.12,
+    charset >= 0.3,
+    errors >= 1.4.7,
+    either >= 4.3.0,
+    transformers >= 0.3,
+    directory >= 1.2,
+    attoparsec >= 0.12,
+    http-types >= 0.8,
+    case-insensitive >= 1.2,
+    tasty >= 0.8,
+    tasty-quickcheck >= 0.8,
+    text >= 1.1,
+    time >= 1.4,
+    tagged >= 0.7
+  ghc-options: -Wall -threaded
+  hs-source-dirs: tests
+
+
