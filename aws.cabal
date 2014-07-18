@@ -97,7 +97,15 @@ Library
                        Aws.DynamoDb.Commands.Table,
                        Aws.DynamoDb.Core,
                        Aws.General,
-                       Aws.SignatureV4
+                       Aws.SignatureV4,
+                       Aws.Sns
+                       Aws.Sns.Core
+                       Aws.Sns.Commands.CreateTopic
+                       Aws.Sns.Commands.DeleteTopic
+                       Aws.Sns.Commands.ListTopics
+                       Aws.Sns.Commands.Subscribe
+                       Aws.Sns.Commands.Unsubscribe
+                       Aws.Sns.Commands.Publish
 
   Build-depends:
                        aeson                >= 0.6     && < 0.8,
