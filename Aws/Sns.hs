@@ -21,6 +21,8 @@ module Aws.Sns
 , module Aws.Sns.Commands.Subscribe
 , module Aws.Sns.Commands.Unsubscribe
 , module Aws.Sns.Commands.Publish
+, module Aws.Sns.Commands.ConfirmSubscription
+, module Aws.Sns.Commands.ListSubscriptionsByTopic
 ) where
 
 import Aws.Sns.Core
@@ -30,4 +32,6 @@ import Aws.Sns.Commands.ListTopics
 import Aws.Sns.Commands.Subscribe
 import Aws.Sns.Commands.Unsubscribe
 import Aws.Sns.Commands.Publish
+import Aws.Sns.Commands.ConfirmSubscription
+import Aws.Sns.Commands.ListSubscriptionsByTopic
 
