@@ -6,7 +6,6 @@
 -- Module: Aws.Sns.Commands.ConfirmSubscription
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: MIT
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --
@@ -18,7 +17,7 @@
 -- Name (ARN). This call requires an AWS signature only when the
 -- AuthenticateOnUnsubscribe flag is set to "true".
 --
--- Defined at <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ConfirmSubscription.html>
+-- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ConfirmSubscription.html>
 --
 module Aws.Sns.Commands.ConfirmSubscription
 ( ConfirmSubscription(..)

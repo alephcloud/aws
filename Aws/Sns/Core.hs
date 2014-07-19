@@ -2,7 +2,6 @@
 -- Module: Aws.Sns.Core
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: MIT
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --
@@ -360,6 +359,7 @@ snsResponseConsumer inner metadata resp = do
         else inner resp
 
 -- | Parse XML Responses
+--
 snsXmlResponseConsumer
     :: (CU.Cursor -> Response SnsMetadata a)
     -> IORef SnsMetadata
@@ -417,7 +417,8 @@ data SnsErrorResponse
 
 instance Exception SnsErrorResponse
 
--- | Common SNS errors as defined at
+-- | Common SNS Errors
+--
 -- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/CommonErrors.html>
 --
 -- TODO add function to provide info about the error (content of haddock comments)
@@ -583,14 +584,15 @@ instance Q.Arbitrary SnsProtocol where
 -- * For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue
 -- * For the application protocol, the endpoint is the EndpointArn of a mobile app and device.
 --
--- cf. <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_Subscribe.html>
+-- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_Subscribe.html>
 --
 type SnsEndpoint = T.Text
 
 -- -------------------------------------------------------------------------- --
 -- Common Parameters
 
--- | Common SNS parameters as defined at
+-- | Common SNS Parameters
+--
 -- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/CommonParameters.html>
 --
 -- The user of this API hardy needs to deal with the data type directly.
@@ -604,7 +606,7 @@ data SnsCommonParameters = SnsCommonParameters
     { snsAction :: !SnsAction
     -- ^ The action to be performed.
 
-    -- , snsParams :: !(Maybe ConditionalRequestAuthParameters)
+    , snsParams :: () -- !(Maybe ConditionalRequestAuthParameters)
     -- ^ The parameters that are required to authenticate a Conditional request.
 
     , snsAWSAccessKeyId :: !B8.ByteString
@@ -622,7 +624,7 @@ data SnsCommonParameters = SnsCommonParameters
     --
     -- format: @YYYY-MM-DDThh:mm:ssZ@ (ISO 8601)
 
-    -- , snsSecurityToken :: !(Maybe SecurityToken)
+    , snsSecurityToken :: () -- !(Maybe SecurityToken)
     -- ^ TODO
 
     , snsSignature :: !Signature

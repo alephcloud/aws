@@ -4,7 +4,6 @@
 -- Module: Aws.SignatureV4
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: MIT
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --
@@ -155,7 +154,8 @@ type UriQuery = HTTP.QueryText
 newtype CanonicalUri = CanonicalUri B8.ByteString
     deriving (Show, Read, Eq, Ord, Typeable)
 
--- | Compute canonical URI according to
+-- | Compute canonical URI
+--
 -- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-create-canonical-request.html>
 --
 -- The input is assumed to be an absolute URI. If the first segment is @..@ it
@@ -206,7 +206,7 @@ normalizeUriQuery =
 newtype CanonicalHeaders = CanonicalHeaders B8.ByteString
     deriving (Show, Read, Eq, Ord, Typeable)
 
--- | Compute canonical HTTP headers as defined at
+-- | Compute canonical HTTP headers
 --
 -- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-create-canonical-request.html>
 --
@@ -283,7 +283,7 @@ canonicalDateHeaderFormat = "%a, %d %b %Y %H:%M:%S GMT"
 newtype SignedHeaders = SignedHeaders B8.ByteString
     deriving (Show, Read, Eq, Ord, Typeable)
 
--- | Compute signed headers as described at
+-- | Compute signed headers
 --
 -- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-create-canonical-request.html>
 --
@@ -301,8 +301,6 @@ newtype CanonicalRequest = CanonicalRequest B8.ByteString
     deriving (Show, Read, Eq, Ord, Typeable)
 
 -- | Create Canonical Request for AWS Signature Version 4
---
--- described at
 --
 -- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-create-canonical-request.html>
 --
@@ -403,7 +401,7 @@ newtype StringToSign = StringToSign B8.ByteString
 
 -- | Create the String to Sign for AWS Signature Version 4
 --
--- defined at <http://docs.aws.amazon.com/general/1.0/gr/sigv4-create-string-to-sign.html>
+-- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-create-string-to-sign.html>
 --
 stringToSign
     :: UTCTime -- ^ request date
@@ -433,7 +431,7 @@ newtype SigningKey = SigningKey B.ByteString
 
 -- | Derive the signing key
 --
--- defined at <http://docs.aws.amazon.com/general/1.0/gr/sigv4-calculate-signature.html>
+-- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-calculate-signature.html>
 --
 signingKey :: Credentials -> CredentialScope -> SigningKey
 signingKey credentials s = SigningKey kSigning
@@ -458,8 +456,6 @@ newtype Signature = Signature B8.ByteString
     deriving (Show, Read, Eq, Ord, Typeable)
 
 -- | Compute an AWS Signature Version 4
---
--- defined at
 --
 -- <http://docs.aws.amazon.com/general/1.0/gr/sigv4-calculate-signature.html>
 --
@@ -523,7 +519,7 @@ authorizationInfoHeader authz = [ ("Authorization", authzInfo) ]
 -- Signing Function
 
 -- $requesttypes
--- * AWS Signature 4 Request Types
+-- = AWS Signature 4 Request Types
 --
 -- There are two types of version 4 signed requests for GET and for POST
 -- requests
@@ -539,7 +535,8 @@ authorizationInfoHeader authz = [ ("Authorization", authzInfo) ]
 -- * Host
 -- * Action
 -- * Date
--- * Authorization parameters
+-- * Authorization parameters:
+--
 --     * Algorithm
 --     * Credential
 --     * Signed headers
@@ -551,10 +548,10 @@ authorizationInfoHeader authz = [ ("Authorization", authzInfo) ]
 --
 -- Headers:
 --
--- * @host@
--- * @x-amz-date@ (or @date@)
--- * @authorization@ (containing all authorization parameters)
--- * @content-type: application/x-www-form-urlencoded. charset=utf-8@
+-- * @host@,
+-- * @x-amz-date@ (or @date@),
+-- * @authorization@ (containing all authorization parameters), and
+-- * @content-type: application/x-www-form-urlencoded. charset=utf-8@.
 --
 -- The query parameters (including @Action@ and @Version@) are placed in the body.
 --
@@ -574,16 +571,17 @@ authorizationInfoHeader authz = [ ("Authorization", authzInfo) ]
 --
 -- Query:
 --
--- * @Action@
--- * @Version@
--- * @X-Amz-Algorithm@
--- * @X-Amz-Credential@
+-- * @Action@,
+-- * @Version@,
+-- * @X-Amz-Algorithm@,
+-- * @X-Amz-Credential@,
 -- * Authorization parameters:
---     * @X-Amz-Date@
---     * @X-Amz-SignedHeaders@
---     * @X-Amz-Signature@
---     * @SignedHeaders@
---     * @Signature@
+--
+--     * @X-Amz-Date@,
+--     * @X-Amz-SignedHeaders@,
+--     * @X-Amz-Signature@,
+--     * @SignedHeaders@,
+--     * @Signature@.
 --
 -- (NOTE that the AWS specification considers @X-Amz-Date@ an authorization parameter
 -- only for URI requests. So for URI requests there are five authorization parameters

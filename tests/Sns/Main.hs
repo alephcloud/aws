@@ -6,7 +6,6 @@
 -- Module: Main
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: MIT
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --

@@ -5,7 +5,6 @@
 -- Module: Aws.General
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: BSD3
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --
@@ -13,7 +12,7 @@
 --
 -- /API Version: 1.0/
 --
--- defined at <http://docs.aws.amazon.com/general/1.0/gr/>
+-- <http://docs.aws.amazon.com/general/1.0/gr/>
 --
 module Aws.General
 ( AwsType(..)
@@ -163,7 +162,7 @@ instance Q.Arbitrary SignatureMethod where
 
 -- | Region
 --
--- defined at <http://docs.aws.amazon.com/general/1.0/gr/rande.html>
+-- <http://docs.aws.amazon.com/general/1.0/gr/rande.html>
 --
 -- The relation between regions and service endpoints is not bijective for all
 -- AWS services. Not all AWS services support all regions. Some services don't
@@ -225,7 +224,7 @@ instance Q.Arbitrary Region where
 
 -- | AWS Account Id
 --
--- Defined at <http://docs.aws.amazon.com/general/1.0/gr/acct-identifiers.html>.
+-- <http://docs.aws.amazon.com/general/1.0/gr/acct-identifiers.html>.
 --
 -- This is actually a 12 digit number.
 --
@@ -252,7 +251,7 @@ instance Q.Arbitrary AccountId where
 
 -- | AWS Canonical User ID
 --
--- Defined at <http://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html>.
+-- <http://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html>.
 --
 -- This is actually a long hexadecimal number
 --
@@ -279,7 +278,7 @@ instance Q.Arbitrary CanonicalUserId where
 -- -------------------------------------------------------------------------- --
 -- Service Namespace
 
--- | Defined at
+-- | AWS Service Namespaces
 --
 -- <http://docs.aws.amazon.com/general/1.0/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces>
 --
@@ -394,7 +393,7 @@ instance Q.Arbitrary ServiceNamespace where
 -- -------------------------------------------------------------------------- --
 -- ARN
 
--- | Defined at
+-- | Amazon Resource Names
 --
 -- <http://docs.aws.amazon.com/general/1.0/gr/aws-arns-and-namespaces.html>
 --

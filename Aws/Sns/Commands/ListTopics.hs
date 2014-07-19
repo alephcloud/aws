@@ -6,7 +6,6 @@
 -- Module: Aws.Sns.Commands.ListTopics
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: MIT
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --
@@ -17,7 +16,7 @@
 -- returned. Use the NextToken parameter in a new ListTopics call to get
 -- further results.
 --
--- Defined at <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ListTopics.html>
+-- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ListTopics.html>
 --
 module Aws.Sns.Commands.ListTopics
 ( ListTopicsNextToken

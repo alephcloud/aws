@@ -6,7 +6,6 @@
 -- Module: Aws.Sns.Commands.ListSubscriptionsByTopic
 -- Copyright: Copyright © 2014 AlephCloud Systems, Inc.
 -- License: MIT
--- Author: Lars Kuhtz <lars@alephcloud.com>
 -- Maintainer: Lars Kuhtz <lars@alephcloud.com>
 -- Stability: experimental
 --
@@ -17,7 +16,7 @@
 -- NextToken is also returned. Use the NextToken parameter in a new
 -- ListSubscriptionsByTopic call to get further results.
 --
--- Defined at <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ListSubscriptionsByTopic.html>
+-- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ListSubscriptionsByTopic.html>
 --
 module Aws.Sns.Commands.ListSubscriptionsByTopic
 ( Subscription(..)
