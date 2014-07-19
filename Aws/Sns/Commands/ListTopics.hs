@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 -- |
 -- Module: Aws.Sns.Commands.ListTopics
@@ -19,7 +20,8 @@
 -- Defined at <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/API_ListTopics.html>
 --
 module Aws.Sns.Commands.ListTopics
-( ListTopics(..)
+( ListTopicsNextToken
+, ListTopics(..)
 , ListTopicsResponse(..)
 , ListTopicsErrors(..)
 ) where
@@ -32,7 +34,9 @@ import Control.Applicative
 import Control.Monad
 import Control.Monad.Trans.Resource (throwM)
 
+import Data.Maybe
 import Data.Monoid
+import Data.String
 import qualified Data.Text as T
 import Data.Typeable
 
@@ -42,12 +46,22 @@ import qualified Text.XML.Cursor as CU
 listTopicsAction :: SnsAction
 listTopicsAction = SnsActionListTopics
 
+newtype ListTopicsNextToken = ListTopicsNextToken { listTopicsNextTokenText :: T.Text }
+    deriving (Show, Read, Eq, Ord, Monoid, IsString)
+
 data ListTopics = ListTopics
-    {}
+    { listTopicsNextToken :: !(Maybe ListTopicsNextToken)
+    -- ^ Token returned by the previous 'ListTopics' request.
+    }
     deriving (Show, Read, Eq, Ord, Typeable)
 
 data ListTopicsResponse = ListTopicsResponse
-    { listTopicsTopics :: ![Arn]
+    { listTopicsResponseNextToken :: !(Maybe ListTopicsNextToken)
+    -- ^ Token to pass along to the next ListTopics request. This element is
+    -- returned if there are additional topics to retrieve.
+    --
+
+    , listTopicsResponseTopics :: ![Arn]
     -- ^ A list of topic ARNs.
     }
     deriving (Show, Read, Eq, Ord, Typeable)
@@ -56,7 +70,7 @@ instance ResponseConsumer r ListTopicsResponse where
     type ResponseMetadata ListTopicsResponse = SnsMetadata
     responseConsumer _ = snsXmlResponseConsumer p
       where
-        p el = ListTopicsResponse <$> arns el
+        p el = ListTopicsResponse (nextToken el) <$> arns el
         arns el = do
             let t = el
                     $// CU.laxElement "ListTopicsResult"
@@ -66,15 +80,21 @@ instance ResponseConsumer r ListTopicsResponse where
                     &/ CU.content
             forM t $ \i -> case fromText i of
                 Right a -> return a
-                Left e -> throwM $ SnsResponseDecodeError $
-                    "failed to parse topic ARN (" <> i <> "): " <> (T.pack . show) e
+                Left e -> throwM $ SnsResponseDecodeError
+                    $ "failed to parse topic ARN (" <> i <> "): " <> (T.pack . show) e
+        nextToken el = fmap ListTopicsNextToken . listToMaybe $ el
+            $// CU.laxElement "ListTopicsResult"
+            &/ CU.laxElement "NextToken"
+            &/ CU.content
 
 instance SignQuery ListTopics where
     type ServiceConfiguration ListTopics = SnsConfiguration
     signQuery ListTopics{..} = snsSignQuery SnsQuery
         { snsQueryMethod = Get
         , snsQueryAction = listTopicsAction
-        , snsQueryParameters = []
+        , snsQueryParameters = case listTopicsNextToken of
+            Nothing -> []
+            Just _ -> [("NextToken", listTopicsNextTokenText <$> listTopicsNextToken)]
         , snsQueryBody = Nothing
         }
 
@@ -83,6 +103,13 @@ instance Transaction ListTopics ListTopicsResponse
 instance AsMemoryResponse ListTopicsResponse where
     type MemoryResponse ListTopicsResponse = ListTopicsResponse
     loadToMemory = return
+
+instance ListResponse ListTopicsResponse Arn where
+    listResponse (ListTopicsResponse _ arns) = arns
+
+instance IteratedTransaction ListTopics ListTopicsResponse where
+    nextIteratedRequest _ ListTopicsResponse{..} =
+        ListTopics listTopicsResponseNextToken <$ listTopicsResponseNextToken
 
 -- -------------------------------------------------------------------------- --
 -- Errors
