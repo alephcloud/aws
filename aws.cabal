@@ -98,6 +98,8 @@ Library
                        Aws.DynamoDb.Core,
                        Aws.General,
                        Aws.SignatureV4,
+
+                       -- SNS
                        Aws.Sns
                        Aws.Sns.Core
                        Aws.Sns.Commands.CreateTopic
