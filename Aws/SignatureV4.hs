@@ -310,7 +310,7 @@ newtype CanonicalRequest = CanonicalRequest B8.ByteString
 -- already canonical.
 --
 canonicalRequest
-    :: Method -- ^ HTTP method of request
+    :: HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ canonical URI Path of request
     -> UriQuery -- ^ canonical URI Query of request
     -> HTTP.RequestHeaders -- ^ canonical request headers
@@ -318,7 +318,7 @@ canonicalRequest
     -> CanonicalRequest
 canonicalRequest method path query headers payload =
     CanonicalRequest $ B8.intercalate "\n"
-        [ httpMethod method
+        [ method
         , cUri
         , cHeaders
         , sHeaders
@@ -606,7 +606,7 @@ signGetRequest
     -> Region -- ^ request region
     -> ServiceNamespace -- ^ service of the request
     -> UTCTime -- ^ request time
-    -> Method -- ^ HTTP method of request
+    -> HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ URI Path of request
     -> UriQuery -- ^ URI Query of request
     -> HTTP.RequestHeaders -- ^ request headers
@@ -626,7 +626,7 @@ signGetRequest_
     -> Region -- ^ request region
     -> ServiceNamespace -- ^ service of the request
     -> UTCTime -- ^ request time
-    -> Method -- ^ HTTP method of request
+    -> HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ URI Path of request
     -> UriQuery -- ^ URI Query of request
     -> HTTP.RequestHeaders -- ^ request headers
@@ -673,7 +673,7 @@ signPostRequest
     -> Region -- ^ request region
     -> ServiceNamespace -- ^ service of the request
     -> UTCTime -- ^ request time
-    -> Method -- ^ HTTP method of request
+    -> HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ URI Path of request
     -> UriQuery -- ^ URI Query of request
     -> HTTP.RequestHeaders -- ^ request headers
@@ -693,7 +693,7 @@ signPostRequest_
     -> Region -- ^ request region
     -> ServiceNamespace -- ^ service of the request
     -> UTCTime -- ^ request time
-    -> Method -- ^ HTTP method of request
+    -> HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ URI Path of request
     -> UriQuery -- ^ URI Query of request
     -> HTTP.RequestHeaders -- ^ request headers
@@ -736,7 +736,7 @@ signGetRequestIO
     -> Region
     -> ServiceNamespace
     -> UTCTime
-    -> Method -- ^ HTTP method of request
+    -> HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ URI Path of request
     -> UriQuery -- ^ URI Query of request
     -> HTTP.RequestHeaders -- ^ request headers
@@ -758,7 +758,7 @@ signPostRequestIO
     -> Region
     -> ServiceNamespace
     -> UTCTime
-    -> Method -- ^ HTTP method of request
+    -> HTTP.Method -- ^ HTTP method of request
     -> UriPath -- ^ URI Path of request
     -> UriQuery -- ^ URI Query of request
     -> HTTP.RequestHeaders -- ^ request headers

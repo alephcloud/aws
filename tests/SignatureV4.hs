@@ -139,7 +139,7 @@ amz_testDate = fromMaybe (error "failed to parse test date")
 -- | Test Parameters
 --
 data TestRequest = TestRequest
-    { testRequestMethod :: !Method
+    { testRequestMethod :: !HTTP.Method
     , testRequestPath :: !UriPath
     , testRequestQuery :: !UriQuery
     , testRequestHeaders :: !HTTP.RequestHeaders
@@ -147,11 +147,11 @@ data TestRequest = TestRequest
     }
     deriving (Show, Eq)
 
-parseRequest :: (Monad m, P.CharParsing m) => m TestRequest
-parseRequest = uncurry <$> (TestRequest <$> tok parseMethod)
+parseRequest :: forall m . (Monad m, P.CharParsing m) => m TestRequest
+parseRequest = uncurry <$> (TestRequest <$> word)
         <*> parseTestUri
         <*> many parseTestHeader
-        <*> (fromString <$> (line *> P.manyTill P.anyChar P.eof))
+        <*> (fromString <$> ((line :: m String) *> P.manyTill P.anyChar P.eof))
         P.<?> "TestRequest"
 
 parseMethod :: P.CharParsing m => m Method

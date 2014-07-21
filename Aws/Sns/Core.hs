@@ -317,7 +317,7 @@ snsSignQuery query conf sigData = SignedQuery
             (snsConfRegion conf)
             ServiceNamespaceSns
             (signatureTime sigData)
-            method
+            (httpMethod method)
             path
             unsignedQuery
             headers
@@ -332,7 +332,7 @@ snsSignQuery query conf sigData = SignedQuery
             (snsConfRegion conf)
             ServiceNamespaceSns
             (signatureTime sigData)
-            method
+            (httpMethod method)
             path
             unsignedQuery
             headers
