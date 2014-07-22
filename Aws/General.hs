@@ -61,6 +61,7 @@ module Aws.General
 import Control.Applicative
 import Control.Monad
 
+import Data.Aeson (ToJSON(..), FromJSON(..), withText)
 import qualified Data.Attoparsec.Text as AP
 import Data.Hashable (Hashable, hashWithSalt, hashUsing)
 import Data.Monoid
@@ -430,6 +431,12 @@ parseArn = P.text "arn:aws" *> p <?> "ARN"
 instance AwsType Arn where
     toText = arnToText
     parse = parseArn
+
+instance ToJSON Arn where
+    toJSON = toJSON . (arnToText :: Arn -> T.Text)
+
+instance FromJSON Arn where
+    parseJSON = withText "Arn" $ either fail return . fromText
 
 -- | This instance if for general testing of the syntax of ARNs. For service
 -- specific ARNs you should use a newtype wrapper and define an 'Arbitrary'
