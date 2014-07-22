@@ -29,6 +29,7 @@ module Aws.Sns.Commands.Publish
 ( SnsMessage(..)
 , MessageId(..)
 , snsMessage
+, SqsNotification(..)
 , Publish(..)
 , PublishResponse(..)
 , PublishErrors(..)
@@ -39,15 +40,17 @@ import Aws.General
 import Aws.Sns.Core
 
 import Control.Applicative
+import Control.Monad
 import Control.Monad.Trans.Resource (throwM)
 
-import Data.Aeson (encode)
+import Data.Aeson (ToJSON(..), FromJSON(..), (.=), (.:), withObject, encode)
 import qualified Data.ByteString.Lazy as LB
 import qualified Data.Map as M
 import Data.Monoid
 import Data.String
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
+import Data.Time.Clock
 import Data.Typeable
 
 import qualified Network.HTTP.Types as HTTP
@@ -90,7 +93,45 @@ snsMessage t = SnsMessage t M.empty
 -- Length Constraint: Maximum 100 characters
 --
 newtype MessageId = MessageId { messageIdText :: T.Text }
-    deriving (Show, Read, Eq, Ord, Monoid, IsString, Typeable)
+    deriving (Show, Read, Eq, Ord, Monoid, IsString, Typeable, FromJSON, ToJSON)
+
+-- -------------------------------------------------------------------------- --
+-- SQS Notification Message
+
+-- | The format of messages used with 'SnsProtocolSqs'
+--
+-- The format is described informally at
+--
+-- <http://docs.aws.amazon.com/sns/latest/dg/SendMessageToSQS.html>
+--
+data SqsNotification = SqsNotification
+    { sqsNotificationMessageId :: !MessageId
+    , sqsNotificationTopicArn :: !Arn
+    , sqsNotificationSubject :: !(Maybe T.Text)
+    , sqsNotificationMessage :: !T.Text
+    , sqsNotificationTimestamp :: !UTCTime
+    , sqsNotificationSignatureVersion :: !T.Text
+    , sqsNotificationSignature :: !T.Text
+    , sqsNotificationSigningCertURL :: !T.Text
+    , sqsNotificationUnsubscribeURL :: !T.Text
+    }
+    deriving (Show, Read, Eq, Ord, Typeable)
+
+instance FromJSON SqsNotification where
+    parseJSON = withObject "SqsNotification" $ \o -> SqsNotification
+        <$> o .: "MessageId"
+        <*> o .: "TopicArn"
+        <*> o .: "Subject"
+        <*> o .: "Message"
+        <*> o .: "Timestamp"
+        <*> o .: "SignatureVersion"
+        <*> o .: "Signature"
+        <*> o .: "SigningCertURL"
+        <*> o .: "UnsubscribeURL"
+        <* (o .: "Type" >>= checkType)
+      where
+        checkType x = when (x /= "Notification")
+            $ fail $ "unexpected type: \"" <> x <> "\"; expected \"Notification\""
 
 -- -------------------------------------------------------------------------- --
 -- Publish
