@@ -79,6 +79,7 @@ data ReceiveMessage
       , rmAttributes :: [MessageAttribute]
       , rmMaxNumberOfMessages :: Maybe Int
       , rmQueueName :: QueueName
+      , rmWaitTimeSeconds :: Maybe Int
       }
     deriving (Show)
 
@@ -140,6 +141,9 @@ instance SignQuery ReceiveMessage  where
                                                                                                 Just x -> Just $ Just $ B.pack $ show x
                                                                                                 Nothing -> Nothing,
                                                                    ("MaxNumberOfMessages",) <$> case rmMaxNumberOfMessages of
+                                                                                                  Just x -> Just $ Just $ B.pack $ show x
+                                                                                                  Nothing -> Nothing,
+                                                                   ("WaitTimeSeconds",) <$> case rmWaitTimeSeconds of
                                                                                                   Just x -> Just $ Just $ B.pack $ show x
                                                                                                   Nothing -> Nothing] ++ formatMAttributes rmAttributes}
 
