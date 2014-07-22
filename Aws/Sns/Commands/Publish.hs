@@ -157,7 +157,7 @@ instance SignQuery Publish where
         subject = maybe [] (\x -> [("Subject", Just x)]) publishSubject
         arn = case publishArn of
             Left a -> [("TopicArn", Just $ toText a)]
-            Right a -> [("EndpointArn", Just $ toText a)]
+            Right a -> [("TargetArn", Just $ toText a)]
         entry = [] -- TODO
 
 instance Transaction Publish PublishResponse
