@@ -40,10 +40,8 @@ import Aws.General
 import Aws.Sns.Core
 
 import Control.Applicative
-import Control.Monad
-import Control.Monad.Trans.Resource (throwM)
 
-import Data.Aeson (ToJSON(..), FromJSON(..), (.=), (.:), withObject, encode)
+import Data.Aeson (ToJSON(..), FromJSON(..), (.:), withObject, encode)
 import qualified Data.ByteString.Lazy as LB
 import qualified Data.Map as M
 import Data.Monoid
@@ -72,10 +70,10 @@ data SnsMessage = SnsMessage
 
 snsMessageParameters :: SnsMessage -> (Method, HTTP.QueryText)
 snsMessageParameters SnsMessage{..} = if M.null snsMessageMap
-    then (Get,) $
+    then (Get,)
         [ ("Message", Just snsMessageDefault)
         ]
-    else (PostQuery,) $
+    else (PostQuery,)
         [ ("MessageStructure", Just "json")
         , ("Message", (Just . T.decodeUtf8 . LB.toStrict) msg)
         ]
