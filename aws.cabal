@@ -101,6 +101,7 @@ Library
 
                        -- SNS
                        Aws.Sns
+                       Aws.Sns.Internal
                        Aws.Sns.Core
                        Aws.Sns.Commands.CreateTopic
                        Aws.Sns.Commands.DeleteTopic
