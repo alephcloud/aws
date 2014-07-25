@@ -111,6 +111,7 @@ Library
                        Aws.Sns.Commands.Publish
                        Aws.Sns.Commands.ConfirmSubscription
                        Aws.Sns.Commands.ListSubscriptionsByTopic
+                       Aws.Sns.Commands.GetSubscriptionAttributes
 
   Build-depends:
                        aeson                >= 0.6     && < 0.8,
