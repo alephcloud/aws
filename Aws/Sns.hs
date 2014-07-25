@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
 
 -- |
 -- Module: Aws.Sns
@@ -13,26 +12,17 @@
 -- <http://docs.aws.amazon.com/sns/2010-03-31/APIReference/Welcome.html>
 --
 module Aws.Sns
-( module Aws.Sns.Core
-, module Aws.Sns.Commands.CreateTopic
-, module Aws.Sns.Commands.DeleteTopic
-, module Aws.Sns.Commands.ListTopics
-, module Aws.Sns.Commands.Subscribe
-, module Aws.Sns.Commands.Unsubscribe
-, module Aws.Sns.Commands.Publish
-, module Aws.Sns.Commands.ConfirmSubscription
-, module Aws.Sns.Commands.ListSubscriptionsByTopic
-, module Aws.Sns.Commands.GetSubscriptionAttributes
+( module SNS
 ) where
 
-import Aws.Sns.Core
-import Aws.Sns.Commands.CreateTopic
-import Aws.Sns.Commands.DeleteTopic
-import Aws.Sns.Commands.ListTopics
-import Aws.Sns.Commands.Subscribe
-import Aws.Sns.Commands.Unsubscribe
-import Aws.Sns.Commands.Publish
-import Aws.Sns.Commands.ConfirmSubscription
-import Aws.Sns.Commands.ListSubscriptionsByTopic
-import Aws.Sns.Commands.GetSubscriptionAttributes
+import Aws.Sns.Core as SNS
+import Aws.Sns.Commands.CreateTopic as SNS
+import Aws.Sns.Commands.DeleteTopic as SNS
+import Aws.Sns.Commands.ListTopics as SNS
+import Aws.Sns.Commands.Subscribe as SNS
+import Aws.Sns.Commands.Unsubscribe as SNS
+import Aws.Sns.Commands.Publish as SNS
+import Aws.Sns.Commands.ConfirmSubscription as SNS
+import Aws.Sns.Commands.ListSubscriptionsByTopic as SNS
+import Aws.Sns.Commands.GetSubscriptionAttributes as SNS
 
