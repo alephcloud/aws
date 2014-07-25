@@ -38,6 +38,7 @@ module Aws.Sns.Commands.Publish
 import Aws.Core
 import Aws.General
 import Aws.Sns.Core
+import Aws.Sns.Internal
 
 import Control.Applicative
 
@@ -126,10 +127,7 @@ instance FromJSON SqsNotification where
         <*> o .: "Signature"
         <*> o .: "SigningCertURL"
         <*> o .: "UnsubscribeURL"
-        <* (o .: "Type" >>= checkType)
-      where
-        checkType x = when (x /= "Notification")
-            $ fail $ "unexpected type: \"" <> x <> "\"; expected \"Notification\""
+        <* (o .: "Type" >>= expectValue ("Notification" :: T.Text))
 
 -- -------------------------------------------------------------------------- --
 -- Publish
